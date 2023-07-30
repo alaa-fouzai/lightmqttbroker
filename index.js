@@ -19,7 +19,7 @@ aedes.authenticate = async (client, username, password, callback) => {
   console.log("authenticate")
   console.log(username)
   console.log(password)
-    password = Buffer.from(password, 'base64').toString();
+    //password = Buffer.from(password, 'base64').toString();
     console.log( "UUID :",username," username!:!password :",password)
     
     Auth = password.split('!:!')
