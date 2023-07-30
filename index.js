@@ -26,8 +26,8 @@ aedes.authenticate = async (client, username, password, callback) => {
       url: url,
       data: {
         UUID :username,
-        Login: Auth[0],
-        password: Auth[1]
+        Login: username,
+        password: password
       }
     }).then(function (response) {
       //console.log(response.data)
