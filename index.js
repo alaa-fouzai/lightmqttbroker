@@ -17,13 +17,15 @@ httpServer.listen(process.env.wsPort, function () {
 // authentication
 aedes.authenticate = async (client, username, password, callback) => {
   console.log("authenticate")
-  console.log(username)
-  console.log(password)
-    //password = Buffer.from(password, 'base64').toString();
+    password = Buffer.from(password, 'base64').toString();
     console.log( "UUID :",username," username!:!password :",password)
     
-    Auth = password.split('!:!')
-    let url = process.env.AuthLightSwitchURL+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
+    //Auth = password.split('!:!')
+    //let url = process.env.AuthLightSwitchURL+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
+    let url = process.env.AuthLightSwitchURL+process.env.AuthLightSwitchPATH;
+    console.log(url);
+    console.log(username);
+    console.log(password);
     response = await axios({
       method: "post",
       url: url,
@@ -45,6 +47,7 @@ aedes.authenticate = async (client, username, password, callback) => {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
+        console.log("error.response.data");
         console.log(error.response.data);
         console.log(error.response.status);
         console.log(error.response.headers);
@@ -52,9 +55,11 @@ aedes.authenticate = async (client, username, password, callback) => {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser 
         // and an instance of http.ClientRequest in node.js
+        console.log("error.request");
         console.log(error.request);
       } else {
         // Something happened in setting up the request that triggered an Error
+        console.log('Error', "error.message");
         console.log('Error', error.message);
       }
      
