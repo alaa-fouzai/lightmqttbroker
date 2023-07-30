@@ -23,9 +23,12 @@ aedes.authenticate = async (client, username, password, callback) => {
     //Auth = password.split('!:!')
     //let url = process.env.AuthLightSwitchURL+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
     let url = process.env.AuthLightSwitchURL+process.env.AuthLightSwitchPATH;
-    console.log(url);
-    console.log(username);
-    console.log(password);
+    console.log("--------------------------------------------");
+    console.log("url :",url);
+    console.log("username :",username);
+    console.log("password :",
+    );
+    console.log("--------------------------------------------");
     response = await axios({
       method: "post",
       url: url,
