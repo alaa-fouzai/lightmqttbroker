@@ -17,17 +17,17 @@ httpServer.listen(process.env.wsPort, function () {
 // authentication
 aedes.authenticate = async (client, username, password, callback) => {
     password = Buffer.from(password, 'base64').toString();
-    console.log( " username :",username," password :",password)
+    console.log( "UUID :",username," username!:!password :",password)
     
-
+    Auth = password.split('!:!')
     let url = process.env.AuthLightSwitchURL+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
     response = await axios({
       method: "post",
       url: url,
       data: {
-        UUID: "4ed23bc0-86cd-4417-ab5b-3b3bf7c21da7",
-        Login: username,
-        password: password
+        UUID :username,
+        Login: Auth[0],
+        password: Auth[1]
       }
     }).then(function (response) {
       //console.log(response.data)
