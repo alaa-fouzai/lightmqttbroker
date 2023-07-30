@@ -17,8 +17,7 @@ httpServer.listen(process.env.wsPort, function () {
 // authentication
 aedes.authenticate = async (client, username, password, callback) => {
   console.log("authenticate")
-  console.log(client)
-  console.log(password)
+  console.log(username)
   console.log(password)
     password = Buffer.from(password, 'base64').toString();
     console.log( "UUID :",username," username!:!password :",password)
@@ -34,7 +33,8 @@ aedes.authenticate = async (client, username, password, callback) => {
         password: password
       }
     }).then(function (response) {
-      //console.log(response.data)
+      console.log("response.data")
+      console.log(response.data)
       if (response.data.status==='ok' && response.data.message === 'success') {
         return callback(null, true);
       }else {
