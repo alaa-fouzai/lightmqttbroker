@@ -26,8 +26,7 @@ aedes.authenticate = async (client, username, password, callback) => {
     console.log("--------------------------------------------");
     console.log("url :",url);
     console.log("username :",username);
-    console.log("password :",
-    );
+    console.log("password :",password);
     console.log("--------------------------------------------");
     response = await axios({
       method: "post",
