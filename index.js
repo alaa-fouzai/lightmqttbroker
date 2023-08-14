@@ -16,18 +16,12 @@ httpServer.listen(process.env.wsPort, function () {
 
 // authentication
 aedes.authenticate = async (client, login, password, callback) => {
-    console.log("authenticate")
     password = Buffer.from(password, 'base64').toString();
     console.log( "UUID :",client.id," login",login,"password :",password)
     
     //Auth = password.split('!:!')
-    let url = process.env.AuthLightSwitchURLlocal+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
-    //let url = process.env.AuthLightSwitchURL+process.env.AuthLightSwitchPATH;
-    console.log("--------------------------------------------");
-    console.log("url :",url);
-    console.log("login :",login);
-    console.log("password :",password);
-    console.log("--------------------------------------------");
+    //let url = process.env.AuthLightSwitchURLlocal+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
+    let url = process.env.AuthLightSwitchURL+process.env.AuthLightSwitchPATH;
     response = await axios({
       method: "post",
       url: url,
@@ -37,8 +31,6 @@ aedes.authenticate = async (client, login, password, callback) => {
         password: password
       }
     }).then(function (response) {
-      console.log("response.data")
-      console.log(response.data)
       if (response.data.status==='ok' && response.data.message === 'success') {
         return callback(null, true);
       }else {
