@@ -22,11 +22,22 @@ aedes.authenticate = async (client, login, password, callback) => {
     //Auth = password.split('!:!')
     //let url = process.env.AuthLightSwitchURLlocal+":"+process.env.AuthLightSwitchPORT+process.env.AuthLightSwitchPATH;
     let url = process.env.AuthLightSwitchURL+process.env.AuthLightSwitchPATH;
+    let uuid= "";
+    if (client.id.includes("app-")) {
+      console.log("app");
+      uuid = client.id.substring(4);
+    } else if (client.id.includes("device-")){
+      console.log("device");
+      uuid = client.id.substring(7);
+    } else {
+      console.log("uuid error");
+      return ;
+    }
     response = await axios({
       method: "post",
       url: url,
       data: {
-        client :client.id,
+        client :uuid,
         login: login,
         password: password
       }
