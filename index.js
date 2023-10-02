@@ -29,6 +29,10 @@ aedes.authenticate = async (client, login, password, callback) => {
     console.log("device");
     uuid = client.id.substring(7);
     url = url + process.env.AuthLightSwitchPATH;
+  } else if (client.id.includes("hub-")) {
+    console.log("hub");
+    uuid = client.id.substring(4);
+    url = url + process.env.hubAuthPATH;
   } else {
     console.log("uuid error");
     return;
