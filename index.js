@@ -107,18 +107,23 @@ aedes.on('publish', function (packet, client) {
   if (client) {
     //console.log(`MESSAGE_PUBLISHED : MQTT Client ${(client ? client.id : 'AEDES BROKER_' + aedes.id)} has published message "${packet.payload}" on ${packet.topic} to aedes broker ${aedes.id}`)
     message = "" + packet.payload;
-    //console.log(message)
-    const obj = JSON.parse(message);
+    console.log(message)
+    try {
+      const obj = JSON.parse(message);
 
-    if (obj.data.sensor_type === "DoorSensor") {
-      console.log("DoorSensor");
-      data = {
-        uuid: obj.data.UUID,
-        id: obj.data.id,
-        battery: obj.data.battery,
-        sensorValue: obj.data.sensorValue
+      if (obj.data.sensor_type === "DoorSensor") {
+        console.log("DoorSensor");
+        data = {
+          uuid: obj.data.UUID,
+          id: obj.data.id,
+          battery: obj.data.battery,
+          sensorValue: obj.data.sensorValue
+        }
+        sendSensorData(process.env.AuthLightSwitchURL + process.env.DoorSensorDataPATH, data);
       }
-      sendSensorData(process.env.AuthLightSwitchURL + process.env.DoorSensorDataPATH, data);
+    }
+    catch (e) {
+      console.log(e);
     }
   }
 
@@ -135,38 +140,43 @@ async function Autonticate(url, data) {
   }
 }
 async function sendSensorData(url, data) {
-  response = await axios({
-    method: "post",
-    url: url,
-    data: data
-  }).then(function (response) {
-    if (response.data.status === 'ok' && response.data.message === 'success') {
-      console.log("succ");
-      console.log(response.data);
-      return;
-    } else {
-      console.log(response.data);
-      console.log("err");
-      return;
-    }
-  }).catch(function (error) {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log("error.response.data");
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser 
-      // and an instance of http.ClientRequest in node.js
-      console.log("error.request");
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', "error.message");
-      console.log('Error', error.message);
-    }
-  });
+  try {
+    response = await axios({
+      method: "post",
+      url: url,
+      data: data
+    }).then(function (response) {
+      if (response.data.status === 'ok' && response.data.message === 'success') {
+        console.log("succ");
+        console.log(response.data);
+        return;
+      } else {
+        console.log(response.data);
+        console.log("err");
+        return;
+      }
+    }).catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log("error.response.data");
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser 
+        // and an instance of http.ClientRequest in node.js
+        console.log("error.request");
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', "error.message");
+        console.log('Error', error.message);
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
+
 }
